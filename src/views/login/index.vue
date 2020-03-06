@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" autocomplete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">登陆</h3>
       </div>
 
       <el-form-item prop="username">
@@ -34,7 +34,7 @@
             placeholder="Password"
             name="password"
             tabindex="2"
-            autocomplete="on"
+            autocomplete="off"
             @keyup.native="checkCapslock"
             @blur="capsTooltip = false"
             @keyup.enter.native="handleLogin"
@@ -75,30 +75,28 @@
 
 <script>
 import { validUsername } from '@/utils/validate'
-import SocialSign from './components/SocialSignin'
 
 export default {
   name: 'Login',
-  components: { SocialSign },
   data() {
     const validateUsername = (rule, value, callback) => {
       if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+        callback(new Error('请输入正确的用户名'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
-      if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+      if (value.length < 4) {
+        callback(new Error('密码不可少于4位'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -121,9 +119,11 @@ export default {
           this.otherQuery = this.getOtherQuery(query)
         }
       },
+      // 初次加载的时候是否执行
       immediate: true
     }
   },
+  // 生命周期函数
   created() {
     // window.addEventListener('storage', this.afterQRScan)
   },
@@ -137,11 +137,14 @@ export default {
   destroyed() {
     // window.removeEventListener('storage', this.afterQRScan)
   },
+  // 方法定义
   methods: {
     checkCapslock(e) {
       const { key } = e
       this.capsTooltip = key && key.length === 1 && (key >= 'A' && key <= 'Z')
     },
+
+    // 是否显示密码
     showPwd() {
       if (this.passwordType === 'password') {
         this.passwordType = ''
@@ -152,6 +155,7 @@ export default {
         this.$refs.password.focus()
       })
     },
+    // 表单提交方法
     handleLogin() {
       this.$refs.loginForm.validate(valid => {
         if (valid) {
@@ -165,7 +169,6 @@ export default {
               this.loading = false
             })
         } else {
-          console.log('error submit!!')
           return false
         }
       })
@@ -201,8 +204,6 @@ export default {
 </script>
 
 <style lang="scss">
-/* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
 
 $bg:#283443;
 $light_gray:#fff;

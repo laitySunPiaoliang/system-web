@@ -26,12 +26,12 @@ const users = {
 export default [
   // user login
   {
-    url: '/vue-element-admin/user/login',
+    url: '/user/login',
     type: 'post',
     response: config => {
       const { username } = config.body
       const token = tokens[username]
-
+      debugger
       // mock error
       if (!token) {
         return {
