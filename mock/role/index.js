@@ -38,11 +38,11 @@ const roles = [
 export default [
   // mock get all routes form server
   {
-    url: '/vue-element-admin/routes',
+    url: '/routes',
     type: 'get',
     response: _ => {
       return {
-        code: 20000,
+        code: '200',
         data: routes
       }
     }
@@ -50,11 +50,11 @@ export default [
 
   // mock get all roles form server
   {
-    url: '/vue-element-admin/roles',
+    url: '/roles',
     type: 'get',
     response: _ => {
       return {
-        code: 20000,
+        code: '200',
         data: roles
       }
     }

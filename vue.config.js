@@ -36,15 +36,15 @@ module.exports = {
       warnings: false,
       errors: true
     },
-    proxy: {
-      '/api': {
-        target: 'http://localhost:8088',
-        pathRewrite: { '^/api': '/system' }
-      }
-    }
+    // 开发中代理模式
+    // proxy: {
+    //   '/api': {
+    //     target: 'http://localhost:8088',
+    //     pathRewrite: { '^/api': '/system' }
+    //   }
+    // }
     // 需要mock的时候开启
-    // ,
-    // before: require('./mock/mock-server.js')
+    before: require('./mock/mock-server.js')
   },
   configureWebpack: {
     // provide the app's title in webpack's name field, so that

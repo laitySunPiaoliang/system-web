@@ -29,7 +29,7 @@ for (let i = 0; i < count; i++) {
 
 export default [
   {
-    url: '/vue-element-admin/article/list',
+    url: '/article/list',
     type: 'get',
     response: config => {
       const { importance, type, title, page = 1, limit = 20, sort } = config.query
@@ -48,7 +48,7 @@ export default [
       const pageList = mockList.filter((item, index) => index < limit * page && index >= limit * (page - 1))
 
       return {
-        code: 20000,
+        code: '200',
         data: {
           total: mockList.length,
           items: pageList
@@ -58,14 +58,14 @@ export default [
   },
 
   {
-    url: '/vue-element-admin/article/detail',
+    url: '/article/detail',
     type: 'get',
     response: config => {
       const { id } = config.query
       for (const article of List) {
         if (article.id === +id) {
           return {
-            code: 20000,
+            code: '200',
             data: article
           }
         }
@@ -74,11 +74,11 @@ export default [
   },
 
   {
-    url: '/vue-element-admin/article/pv',
+    url: '/article/pv',
     type: 'get',
     response: _ => {
       return {
-        code: 20000,
+        code: '200',
         data: {
           pvData: [
             { key: 'PC', pv: 1024 },
