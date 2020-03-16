@@ -71,19 +71,37 @@
         </template>
       </el-table-column>
     </el-table>
+    <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
   </div>
 </template>
 
 <script>
 
+import Pagination from '@/components/Pagination'
+import { getUserList } from '@/api/user'
+
 export default {
   name: 'User',
+  components: { Pagination },
   data() {
+    return []
   },
 
   mounted() {
   },
   methods: {
+    getList() {
+      this.listLoading = true
+      getUserList(this.listQuery).then(response => {
+        this.list = response.data.items
+        this.total = response.data.total
+
+        // Just to simulate the time of the request
+        setTimeout(() => {
+          this.listLoading = false
+        }, 1.5 * 1000)
+      })
+    }
   }
 }
 </script>
