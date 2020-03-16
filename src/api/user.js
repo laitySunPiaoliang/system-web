@@ -23,9 +23,10 @@ export function logout() {
   })
 }
 
-export function getUserList() {
+export function getUserList(listQuery) {
   return request({
     url: '/user/getList',
-    method: 'get'
+    method: 'get',
+    params: { listQuery }
   })
 }

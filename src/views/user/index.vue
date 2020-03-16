@@ -10,16 +10,37 @@
       style="width: 100%;"
     >
 
-      <el-table-column label="用户名" width="110px" align="center">
+      <el-table-column label="用户名" width="150px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.loginName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="添加时间" width="160px" align="center">
+      <el-table-column label="年龄" width="100px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.age }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="电话" width="200px" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.phone }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="添加时间" width="200px" align="center">
         <template slot-scope="{row}">
           <span>{{ row.inputDate }}</span>
         </template>
       </el-table-column>
+      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+        <template slot-scope="{row,$index}">
+          <el-button type="primary" size="mini">
+            Edit
+          </el-button>
+          <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row,$index)">
+            Delete
+          </el-button>
+        </template>
+      </el-table-column>
+
     </el-table>
     <pagination v-show="total>0" :total="total" :page.sync="listQuery.page" :limit.sync="listQuery.limit" @pagination="getList" />
   </div>
@@ -40,12 +61,12 @@ export default {
       total: 0,
       listLoading: true,
       listQuery: {
-        page: 1,
-        limit: 10,
+        pageNum: 1,
+        pageSize: 10,
         importance: undefined,
         title: undefined,
         type: undefined,
-        sort: '+id'
+        sort: undefined
       },
       temp: {
         id: undefined,
