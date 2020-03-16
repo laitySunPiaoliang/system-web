@@ -31,7 +31,6 @@ export default [
     response: config => {
       const { username } = config.body
       const token = tokens[username]
-      debugger
       // mock error
       if (!token) {
         return {
@@ -80,5 +79,56 @@ export default [
         data: 'success'
       }
     }
+  },
+
+  {
+    url: '/user/getList',
+    type: 'get',
+    response: _ => {
+      const userList = {
+        'success': true,
+        'message': '操作成功！',
+        'code': '200',
+        'result': {
+          'total': 1,
+          'list': [
+            {
+              'id': 1,
+              'delsign': false,
+              'inputDate': '2020-03-07 10:44:25',
+              'inputName': '1',
+              'updateDate': null,
+              'updateName': null,
+              'loginName': 'admin',
+              'password': 'admin',
+              'age': 1,
+              'phone': '1'
+            }
+          ],
+          'pageNum': 1,
+          'pageSize': 10,
+          'size': 1,
+          'startRow': 1,
+          'endRow': 1,
+          'pages': 1,
+          'prePage': 0,
+          'nextPage': 0,
+          'isFirstPage': true,
+          'isLastPage': true,
+          'hasPreviousPage': false,
+          'hasNextPage': false,
+          'navigatePages': 8,
+          'navigatepageNums': [
+            1
+          ],
+          'navigateFirstPage': 1,
+          'navigateLastPage': 1
+        },
+        'timestamp': 1584367345908
+      }
+
+      return userList
+    }
   }
+
 ]
