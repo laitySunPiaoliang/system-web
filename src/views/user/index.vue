@@ -7,36 +7,46 @@
       border
       fit
       highlight-current-row
-      style="width: 100%;"
+      style="width: 75%;"
     >
 
-      <el-table-column label="用户名" width="150px" align="center">
+      <el-table-column label="用户名" min-width="12%" align="center">
         <template slot-scope="{row}">
           <span>{{ row.loginName }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="年龄" width="100px" align="center">
+      <el-table-column label="年龄" min-width="8%" align="center">
         <template slot-scope="{row}">
           <span>{{ row.age }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="电话" width="200px" align="center">
+      <el-table-column label="电话" min-width="15%" align="center">
         <template slot-scope="{row}">
           <span>{{ row.phone }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="添加时间" width="200px" align="center">
+      <el-table-column label="激活状态" min-width="8%" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.isActived | parseIsActived }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column label="添加时间" min-width="15%" align="center">
         <template slot-scope="{row}">
           <span>{{ row.inputDate }}</span>
         </template>
       </el-table-column>
-      <el-table-column label="操作" align="center" width="230" class-name="small-padding fixed-width">
+      <el-table-column label="添加人" min-width="12%" align="center">
+        <template slot-scope="{row}">
+          <span>{{ row.inputName }}</span>
+        </template>
+      </el-table-column>
+      <el-table-column :render-header="renderHeader" align="center" min-width="20%" class-name="small-padding fixed-width">
         <template slot-scope="{row,$index}">
           <el-button type="primary" size="mini">
-            Edit
+            编辑
           </el-button>
           <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row,$index)">
-            Delete
+            注销
           </el-button>
         </template>
       </el-table-column>
@@ -54,6 +64,14 @@ import { getUserList } from '@/api/user'
 export default {
   name: 'User',
   components: { Pagination },
+  filters: {
+    parseIsActived(isActived) {
+      if (isActived) {
+        return '激活'
+      }
+      return '注销'
+    }
+  },
   data() {
     return {
       tableKey: 0,
@@ -96,7 +114,23 @@ export default {
           this.listLoading = false
         }, 1.5 * 1000)
       })
+    },
+    renderHeader() {
+      return (
+        <div>
+          <span>操作</span>
+          <a style='margin-left:10px'><i class='el-icon-circle-plus-outline' /></a>
+        </div>
+      )
+    },
+    parseIsActived(flag) {
+      alert(flag)
+      if (!flag) {
+        return '激活'
+      }
+      return '注销'
     }
+
   }
 }
 </script>

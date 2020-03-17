@@ -80,7 +80,7 @@ export default [
       }
     }
   },
-
+  // userlist
   {
     url: '/user/getList',
     type: 'get',
@@ -95,6 +95,7 @@ export default [
             {
               'id': 1,
               'delsign': false,
+              'isActived': true,
               'inputDate': '2020-03-07 10:44:25',
               'inputName': '1',
               'updateDate': null,
