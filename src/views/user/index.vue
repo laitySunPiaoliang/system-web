@@ -2,7 +2,7 @@
   <div class="app-container">
     <el-row :gutter="10">
       <el-col :md="4">
-        <el-card class="box-card" style="width:100%;height:1000px">
+        <el-card class="box-card" style="width:100%;height:900px">
           <div slot="header" class="clearfix">
             <span>集团</span>
             <el-button style="float: right; padding: 3px 0" type="text">
