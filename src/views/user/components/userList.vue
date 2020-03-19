@@ -64,7 +64,7 @@
       </div>
     </el-card>
 
-    <!-- <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible"> -->
+    <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
     <!--   <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
         <el-form-item label="Type" prop="type">
           <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
@@ -97,8 +97,7 @@
           Confirm
         </el-button>
       </div>  -->
-    <!-- </el-dialog> -->
-  </div>
+    </el-dialog></div>
 </template>
 
 <script>
@@ -138,6 +137,12 @@ export default {
         title: '',
         type: '',
         status: 'published'
+      },
+      dialogFormVisible: false,
+      dialogStatus: '',
+      textMap: {
+        update: 'Edit',
+        create: 'Create'
       }
     }
   },
@@ -175,12 +180,12 @@ export default {
   },
   // 添加弹出框方法
   handleCreate() {
-    this.resetTemp()
+    // this.resetTemp()
     this.dialogStatus = 'create'
     this.dialogFormVisible = true
-    this.$nextTick(() => {
-      this.$refs['dataForm'].clearValidate()
-    })
+    // this.$nextTick(() => {
+    // this.$refs['dataForm'].clearValidate()
+    // })
   },
   // 添加请求方法
   createData() {
