@@ -35,6 +35,11 @@
           </el-table-column>
           <el-table-column label="激活状态" min-width="8%" align="center">
             <template slot-scope="{row}">
+              <!-- <el-switch
+                v-model="row.isActived"
+                active-color="#13ce66"
+                inactive-color="#ff4949"
+              /> -->
               <span>{{ row.isActived | parseIsActived }}</span>
             </template>
           </el-table-column>
@@ -50,7 +55,7 @@
           </el-table-column>
           <el-table-column :render-header="renderHeader" align="center" min-width="20%" class-name="small-padding fixed-width">
             <template slot-scope="{row,$index}">
-              <el-button type="primary" size="mini">
+              <el-button type="primary" size="mini" @click="handleUpdate">
                 编辑
               </el-button>
               <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row,$index)">
@@ -65,38 +70,28 @@
     </el-card>
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
-    <!--   <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 400px; margin-left:50px;">
-        <el-form-item label="Type" prop="type">
-          <el-select v-model="temp.type" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in calendarTypeOptions" :key="item.key" :label="item.display_name" :value="item.key" />
-          </el-select>
+      <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 500px; margin-left:50px;">
+        <el-form-item label="用户名" prop="title">
+          <el-input v-model="temp.username" />
         </el-form-item>
-        <el-form-item label="Date" prop="timestamp">
-          <el-date-picker v-model="temp.timestamp" type="datetime" placeholder="Please pick a date" />
+        <el-form-item label="密码" prop="title">
+          <el-input v-model="temp.password" />
         </el-form-item>
-        <el-form-item label="Title" prop="title">
-          <el-input v-model="temp.title" />
+        <el-form-item label="年龄" prop="title">
+          <el-input v-model="temp.age" />
         </el-form-item>
-        <el-form-item label="Status">
-          <el-select v-model="temp.status" class="filter-item" placeholder="Please select">
-            <el-option v-for="item in statusOptions" :key="item" :label="item" :value="item" />
-          </el-select>
-        </el-form-item>
-        <el-form-item label="Imp">
-          <el-rate v-model="temp.importance" :colors="['#99A9BF', '#F7BA2A', '#FF9900']" :max="3" style="margin-top:8px;" />
-        </el-form-item>
-        <el-form-item label="Remark">
-          <el-input v-model="temp.remark" :autosize="{ minRows: 2, maxRows: 4}" type="textarea" placeholder="Please input" />
+        <el-form-item label="电话" prop="title">
+          <el-input v-model="temp.phone" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
         <el-button @click="dialogFormVisible = false">
-          Cancel
+          取消
         </el-button>
         <el-button type="primary" @click="dialogStatus==='create'?createData():updateData()">
-          Confirm
+          提交
         </el-button>
-      </div>  -->
+      </div>
     </el-dialog></div>
 </template>
 
@@ -141,8 +136,8 @@ export default {
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
-        update: 'Edit',
-        create: 'Create'
+        update: '修改',
+        create: '添加'
       }
     }
   },
@@ -175,26 +170,35 @@ export default {
         return '激活'
       }
       return '注销'
-    }
+    },
 
-  },
-  // 添加弹出框方法
-  handleCreate() {
+    // 添加弹出框方法
+    handleCreate() {
     // this.resetTemp()
-    this.dialogStatus = 'create'
-    this.dialogFormVisible = true
+      this.dialogStatus = 'create'
+      this.dialogFormVisible = true
     // this.$nextTick(() => {
     // this.$refs['dataForm'].clearValidate()
     // })
-  },
-  // 添加请求方法
-  createData() {
-    this.$refs['dataForm'].validate((valid) => {
-      if (valid) {
-        this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-        this.temp.author = 'vue-element-admin'
-      }
-    })
+    },
+    // 添加请求方法
+    createData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
+          this.temp.author = 'vue-element-admin'
+        }
+      })
+    },
+    handleUpdate() {
+    // this.resetTemp()
+      this.dialogStatus = 'update'
+      this.dialogFormVisible = true
+    // this.$nextTick(() => {
+    // this.$refs['dataForm'].clearValidate()
+    // })
+    }
   }
+
 }
 </script>
