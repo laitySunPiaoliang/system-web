@@ -30,3 +30,11 @@ export function getUserList(listQuery) {
     params: { listQuery }
   })
 }
+
+export function createUser(data) {
+  return request({
+    url: '/user/addUser',
+    method: 'put',
+    data
+  })
+}

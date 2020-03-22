@@ -71,17 +71,17 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 500px; margin-left:50px;">
-        <el-form-item label="用户名" prop="title">
+        <el-form-item label="用户名" prop="username">
           <el-input v-model="temp.username" />
         </el-form-item>
-        <el-form-item label="密码" prop="title">
-          <el-input v-model="temp.password" />
+        <el-form-item label="密码" prop="password">
+          <el-input v-model="temp.password" type="password" />
         </el-form-item>
-        <el-form-item label="年龄" prop="title">
-          <el-input v-model="temp.age" />
+        <el-form-item label="年龄" prop="age">
+          <el-input v-model="temp.age" type="number" />
         </el-form-item>
-        <el-form-item label="电话" prop="title">
-          <el-input v-model="temp.phone" />
+        <el-form-item label="电话" prop="phone">
+          <el-input v-model="temp.phone" type="number" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -97,7 +97,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getUserList } from '@/api/user'
+import { getUserList, createUser } from '@/api/user'
 
 export default {
   name: 'UserList',
@@ -119,25 +119,25 @@ export default {
       listQuery: {
         pageNum: 1,
         pageSize: 10,
-        importance: undefined,
-        title: undefined,
-        type: undefined,
         sort: undefined
       },
       temp: {
-        id: undefined,
-        importance: 1,
-        remark: '',
-        timestamp: new Date(),
-        title: '',
-        type: '',
-        status: 'published'
+        username: '',
+        password: '',
+        age: 0,
+        phone: 0
       },
       dialogFormVisible: false,
       dialogStatus: '',
       textMap: {
         update: '修改',
         create: '添加'
+      },
+      rules: {
+        username: [{ type: 'string', required: true, message: '请填写用户名', trigger: 'blur' }],
+        password: [{ type: 'string', required: true, message: '请填写密码', trigger: 'blur' }],
+        age: [{ type: 'string', required: true, message: '请填写年龄', trigger: 'blur' }],
+        phone: [{ type: 'string', required: true, message: '请填写电话号码', trigger: 'blur' }]
       }
     }
   },
@@ -171,27 +171,34 @@ export default {
       }
       return '注销'
     },
+    // 重置表单
+    resetTemp() {
+      this.temp = {
+        username: '',
+        password: '',
+        age: undefined,
+        phone: undefined
+      }
+    },
 
     // 添加弹出框方法
     handleCreate() {
-    // this.resetTemp()
+      this.resetTemp()
       this.dialogStatus = 'create'
       this.dialogFormVisible = true
-    // this.$nextTick(() => {
-    // this.$refs['dataForm'].clearValidate()
-    // })
     },
     // 添加请求方法
     createData() {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
-          this.temp.id = parseInt(Math.random() * 100) + 1024 // mock a id
-          this.temp.author = 'vue-element-admin'
+          createUser().then(response => {
+            console.log(response.status)
+          })
         }
       })
     },
     handleUpdate() {
-    // this.resetTemp()
+      this.resetTemp()
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
     // this.$nextTick(() => {
