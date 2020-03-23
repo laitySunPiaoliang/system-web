@@ -55,7 +55,7 @@
           </el-table-column>
           <el-table-column :render-header="renderHeader" align="center" min-width="20%" class-name="small-padding fixed-width">
             <template slot-scope="{row,$index}">
-              <el-button type="primary" size="mini" @click="handleUpdate">
+              <el-button type="primary" size="mini" @click="handleUpdate(row)">
                 编辑
               </el-button>
               <el-button v-if="row.status!='deleted'" size="mini" type="danger" @click="handleDelete(row,$index)">
@@ -71,17 +71,17 @@
 
     <el-dialog :title="textMap[dialogStatus]" :visible.sync="dialogFormVisible">
       <el-form ref="dataForm" :rules="rules" :model="temp" label-position="left" label-width="70px" style="width: 500px; margin-left:50px;">
-        <el-form-item label="用户名" prop="username">
-          <el-input v-model="temp.username" />
+        <el-form-item label="用户名" prop="loginName">
+          <el-input v-model="temp.loginName" />
         </el-form-item>
         <el-form-item label="密码" prop="password">
           <el-input v-model="temp.password" type="password" />
         </el-form-item>
         <el-form-item label="年龄" prop="age">
-          <el-input v-model="temp.age" type="number" />
+          <el-input v-model.number="temp.age" type="number" />
         </el-form-item>
         <el-form-item label="电话" prop="phone">
-          <el-input v-model="temp.phone" type="number" />
+          <el-input v-model.number="temp.phone" type="number" />
         </el-form-item>
       </el-form>
       <div slot="footer" class="dialog-footer">
@@ -97,7 +97,7 @@
 
 <script>
 import Pagination from '@/components/Pagination'
-import { getUserList, createUser } from '@/api/user'
+import { getUserList, createUser, updateUser } from '@/api/user'
 
 export default {
   name: 'UserList',
@@ -122,7 +122,7 @@ export default {
         sort: undefined
       },
       temp: {
-        username: '',
+        loginName: '',
         password: '',
         age: 0,
         phone: 0
@@ -134,10 +134,10 @@ export default {
         create: '添加'
       },
       rules: {
-        username: [{ type: 'string', required: true, message: '请填写用户名', trigger: 'blur' }],
+        loginName: [{ type: 'string', required: true, message: '请填写用户名', trigger: 'blur' }],
         password: [{ type: 'string', required: true, message: '请填写密码', trigger: 'blur' }],
-        age: [{ type: 'string', required: true, message: '请填写年龄', trigger: 'blur' }],
-        phone: [{ type: 'string', required: true, message: '请填写电话号码', trigger: 'blur' }]
+        age: [{ type: 'number', required: true, message: '请填写年龄', trigger: 'blur' }],
+        phone: [{ type: 'number', required: true, message: '请填写电话号码', trigger: 'blur' }]
       }
     }
   },
@@ -197,13 +197,27 @@ export default {
         }
       })
     },
-    handleUpdate() {
+    handleUpdate(row) {
       this.resetTemp()
+      this.temp = Object.assign({}, row)
       this.dialogStatus = 'update'
       this.dialogFormVisible = true
-    // this.$nextTick(() => {
-    // this.$refs['dataForm'].clearValidate()
-    // })
+    },
+    updateData() {
+      this.$refs['dataForm'].validate((valid) => {
+        if (valid) {
+          const tempData = Object.assign({}, this.temp)
+          updateUser(tempData).then(() => {
+            this.dialogFormVisible = false
+            this.$notify({
+              title: 'Success',
+              message: 'Update Successfully',
+              type: 'success',
+              duration: 2000
+            })
+          })
+        }
+      })
     }
   }
 

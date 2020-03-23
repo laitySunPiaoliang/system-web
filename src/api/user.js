@@ -31,9 +31,9 @@ export function getUserList(listQuery) {
   })
 }
 
-export function createUser(data) {
+export function updateUser(data) {
   return request({
-    url: '/user/addUser',
+    url: '/user/updUser',
     method: 'put',
     data
   })
