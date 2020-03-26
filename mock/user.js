@@ -11,9 +11,9 @@ const tokens = {
 const users = {
   'admin-token': {
     roles: ['admin'],
-    introduction: 'I am a super administrator',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Super Admin'
+    // introduction: 'I am a super administrator',
+    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif'
+    // name: 'Super Admin'
   },
   'editor-token': {
     roles: ['editor'],
@@ -129,6 +129,28 @@ export default [
       }
 
       return userList
+    }
+  },
+  {
+    url: '/user/addUser',
+    type: 'post',
+    response: _ => {
+      return {
+        'success': true,
+        'message': '操作成功！',
+        'code': '200'
+      }
+    }
+  },
+  {
+    url: '/user/updUser',
+    type: 'put',
+    response: _ => {
+      return {
+        'success': true,
+        'message': '操作成功！',
+        'code': '200'
+      }
     }
   }
 

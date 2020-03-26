@@ -192,7 +192,15 @@ export default {
       this.$refs['dataForm'].validate((valid) => {
         if (valid) {
           createUser().then(response => {
-            console.log(response.status)
+            // this.list.unshift(this.temp)
+            this.getList()
+            this.dialogFormVisible = false
+            this.$notify({
+              title: '添加用户',
+              message: '添加成功',
+              type: 'success',
+              duration: 2000
+            })
           })
         }
       })
@@ -208,10 +216,13 @@ export default {
         if (valid) {
           const tempData = Object.assign({}, this.temp)
           updateUser(tempData).then(() => {
+            // const index = this.list.findIndex(v => v.id === this.temp.id)
+            // this.list.splice(index, 1, this.temp)
+            this.getList()
             this.dialogFormVisible = false
             this.$notify({
-              title: 'Success',
-              message: 'Update Successfully',
+              title: '修改用户',
+              message: '修改成功',
               type: 'success',
               duration: 2000
             })
