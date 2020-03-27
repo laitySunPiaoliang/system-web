@@ -1,7 +1,7 @@
 <template>
   <div class="app-container">
     <el-row :gutter="10">
-      <el-col :md="4">
+      <el-col :md="6">
         <el-card class="box-card" style="width:100%;height:900px">
           <div slot="header" class="clearfix">
             <span>集团</span>
@@ -14,7 +14,7 @@
           </div>
         </el-card>
       </el-col>
-      <el-col :lg="20">
+      <el-col :md="18">
         <UserList />
         <RoleCheckbox style="margin-top:20px" />
       </el-col>
