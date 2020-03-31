@@ -24,7 +24,7 @@ export default {
   data() {
     return {
       data: [{
-        label: '一级 111',
+        label: '一级 1',
         children: [{
           label: '二级 1-1',
           children: [{
